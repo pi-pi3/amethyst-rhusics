@@ -14,8 +14,8 @@ description = "Integration of `amethyst` and `rhusics`"
 keywords = ["gamedev", "amethyst", "physics"]
 
 [dependencies]
-amethyst_core = { version = "0.4", git = "https://github.com/amethyst/amethyst" }
-amethyst_renderer = { version = "0.9", git = "https://github.com/amethyst/amethyst" }
+amethyst_core = { path = "../amethyst/amethyst_core/", features = ["nightly"] }
+amethyst_renderer = { path = "../amethyst/amethyst_renderer/", features = ["nightly"] }
 rhusics-ecs = { version = "0.7", features = ["serde"] }
 rhusics-core = { version = "0.7", features = ["specs", "serde"] }
 shrev = "1.0"
@@ -23,7 +23,7 @@ collision = { version = "0.18", features = ["serde"]}
 cgmath = "0.16.1"
 
 [dev-dependencies]
-amethyst = { version = "0.9", git = "https://github.com/amethyst/amethyst" }
+amethyst = { path = "../amethyst/", features = ["nightly"] }
 genmesh = "0.5"
 rand = "0.3"
 shred = "0.7"

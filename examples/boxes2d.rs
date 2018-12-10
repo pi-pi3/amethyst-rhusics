@@ -49,7 +49,7 @@ pub struct Emitting {
 
 pub type Shape = CollisionShape<Primitive2<f32>, BodyPose2<f32>, Aabb2<f32>, ObjectType>;
 
-impl<'a, 'b> SimpleState<'a, 'b> for Emitting {
+impl SimpleState for Emitting {
     fn on_start(&mut self, data: StateData<GameData>) {
         let StateData { world, .. } = data;
         world.write_resource::<KillRate>().0 = 0.01;
@@ -77,7 +77,7 @@ impl<'a, 'b> SimpleState<'a, 'b> for Emitting {
         initialise_emitters(world);
     }
 
-    fn handle_event(&mut self, _: StateData<GameData>, event: StateEvent) -> SimpleTrans<'a, 'b> {
+    fn handle_event(&mut self, _: StateData<GameData>, event: StateEvent) -> SimpleTrans {
         match event {
             StateEvent::Window(ref event)
                 if is_close_requested(&event) || is_key_down(&event, VirtualKeyCode::Escape) =>
@@ -88,7 +88,7 @@ impl<'a, 'b> SimpleState<'a, 'b> for Emitting {
         }
     }
 
-    fn update(&mut self, data: &mut StateData<GameData>) -> SimpleTrans<'a, 'b> {
+    fn update(&mut self, data: &mut StateData<GameData>) -> SimpleTrans {
         time_sync(&data.world);
         update_ui::<Point2<f32>>(
             data.world,
@@ -116,7 +116,8 @@ fn initialise_mesh(world: &mut World) -> Handle<Mesh> {
         .vertex(|v| PosTex {
             position: v.pos.into(),
             tex_coord: na::Vector2::new(0.1, 0.1),
-        }).triangulate()
+        })
+        .triangulate()
         .vertices()
         .collect::<Vec<_>>();
     world
@@ -154,7 +155,8 @@ fn initialise_emitters(world: &mut World) {
             Point2::new(-0.4, 0.),
             Duration::new(0, 50_000_000),
             mat,
-        )).build();
+        ))
+        .build();
 
     let mat = initialise_material(world, 0.3, 0.0, 0.3);
     world
@@ -163,7 +165,8 @@ fn initialise_emitters(world: &mut World) {
             Point2::new(0.4, 0.),
             Duration::new(0, 75_000_000),
             mat,
-        )).build();
+        ))
+        .build();
 
     let mat = initialise_material(world, 1.0, 1.0, 1.0);
     world
@@ -172,7 +175,8 @@ fn initialise_emitters(world: &mut World) {
             Point2::new(0., -0.4),
             Duration::new(0, 100_000_000),
             mat,
-        )).build();
+        ))
+        .build();
 
     let mat = initialise_material(world, 1.0, 0.3, 0.3);
     world
@@ -181,7 +185,8 @@ fn initialise_emitters(world: &mut World) {
             Point2::new(0., 0.4),
             Duration::new(1, 25_000_000),
             mat,
-        )).build();
+        ))
+        .build();
 }
 
 fn run() -> Result<(), amethyst::Error> {
